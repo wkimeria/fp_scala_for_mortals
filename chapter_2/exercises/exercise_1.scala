@@ -5,6 +5,8 @@ The nth number is always the sum of the previous two—the sequence begins 0, 1,
 Your definition should use a local tail-recursive function.
 */
 def fib(n: Int): Int = {
+
+	@annotation.tailrec
 	def loop(c:Int, a: Int, b: Int): Int = {
 		if(c == n) a
 		else loop(c + 1, b, a + b)
