@@ -10,7 +10,7 @@ def uncurry[A,B,C](f: A => B => C): (A, B) => C = {
 /*
  - uncurry takes 3 types (A,B,C)
  - Takes a function that takes an argument of type A that returns a function that
-   a argument of type B and returns a value of type C
+   an argument of type B and returns a value of type C
  - Returns a function that takes arguments of type A and B and returns a value of type C
 
 ERR_WUT?
@@ -24,3 +24,25 @@ So it seems the (b) part means immediately apply the function returned to  argum
 order to return c of type C
 
 */
+
+/*
+Tests
+*/
+
+val func1 = (a: String, b: String) => a + " " + b
+
+//Curry (from Exercise 2.3)
+def curry[A,B,C](f: (A, B) => C): A => (B => C) = {
+	(a: A) => (b:B) => f(a,b)
+}
+
+val curried = curry(func1)
+val result1 = curried("Hello")
+val result2 = result1("There!")
+
+assert(result2 == "Hello There!")
+
+val uncurried = uncurry(curried)
+val result3 = uncurried("Hello", "There again!")
+
+assert(result3 == "Hello There again!")
