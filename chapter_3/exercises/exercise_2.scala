@@ -20,18 +20,23 @@ object List {
 		if(as.isEmpty) Nil
 		else Cons(as.head, apply(as.tail: _*))
 	}
+
+	/*
+	Implement the function tail for removing the first element of a List. 
+	Note that the function takes constant time. What are different choices 
+	you could make in your implementation if the List is Nil? 
+	We’ll return to this question in the next chapter.
+	*/
+	def tail[A](items: List[A]): List[A] = items match{
+		case Nil => Nil
+		case Cons(h,t) => t
+	}
+
 }
 
 /*
-What will be the result of the following match expression?
+Tests
 */
 
-val x = List(1,2,3,4,5) match {
-	case Cons(x, Cons(2, Cons(4, _))) => x
-	case Nil => 42
-	case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
-	case Cons(h, t) => h + List.sum(t)
-	case _ => 101
-}
-
-assert(x == 3)
+assert(List.tail(List(1,2,3,4,5)) == List(2,3,4,5))
+assert(List.tail(Nil) == Nil)
