@@ -31,27 +31,33 @@ object List {
 		case Cons(h,t) => Cons(n, t)
 	}
 
-	/*
-	Generalize tail to the function drop, which removes the first n elements 
-	from a list. Note that this function takes time proportional only to 
-	the number of elements being dropped—we don’t need to make a copy of 
-	the entire List.
-
-	def drop[A](l: List[A], n: Int): List[A]
-
-	*/
 	def drop[A](l: List[A], n: Int): List[A] = (l, n) match {
 		case (Nil, _) => Nil
 		case (ls,0) => ls
 		case(Cons(h,t), c) => drop(t, c-1)
 	}
+
+	/*
+	Implement dropWhile, which removes elements from the List prefix as long as 
+	they match a predicate.
+
+	def dropWhile[A](l: List[A], f: A => Boolean): List[A]
+
+	*/
+	
+	def dropWhile[A](l: List[A], f: A => Boolean): List[A] = l match {
+		case Nil => Nil
+		case Cons(h, t) => if(f(h) == true) dropWhile(t,f)
+					  	   else Cons(h,t)
+	}
 }
+
 
 /*
 Tests
 */
 
-assert(List.drop(List(1,2,3,4),2) == List(3,4))
-assert(List.drop(List(1),1) == Nil)
-assert(List.drop(Nil,2) == Nil)
-assert(List.drop(List(1,2),0) == List(1,2))
+assert(List.dropWhile(List(1,2,3,4,5), (f:Int)=> (f % 4) != 0) == List(4,5))
+assert(List.dropWhile(List("a", "b", "c", "d"), (f:String)=> f != "c") == List("c", "d"))
+assert(List.dropWhile(Nil, (f:Int)=> (f % 4) != 0) == Nil)
+
