@@ -52,7 +52,6 @@ object List {
 		case Cons(x, xs) => {
 			foldLeft(xs,f(z,x))(f)
 		}
-		//case Cons(x, xs) => f(foldLeft(xs,z)(f), x)
 	}
 
 	def length2[A](as: List[A]): Int = foldLeft(as, 0)((x,y) => 1 + x)
