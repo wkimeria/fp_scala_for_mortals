@@ -34,19 +34,32 @@ object List {
 		case Cons(x, xs) => foldLeft(xs,f(z,x))(f)
 	}
 
+	def reverse[A](as: List[A]): List[A] = as match {
+		case Nil => Nil
+		case Cons(x, xs) => foldLeft(xs, Cons(x,Nil))((a,b) => Cons(b, a))
+	}
+
 	/*
 
 	Hard: Write a function that concatenates a list of lists into a single list. 
 	Its runtime should be linear in the total length of all lists. 
 	Try to use functions we have already defined.
-
 	*/
 
-	//TODO
-
-	
+	def flattenList[A](as: List[List[A]]): List[A] = {
+		def appendList[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1, l2)((a,b) => Cons(a,b))
+		as match {
+			case Nil => Nil
+			case Cons(x,xs) => appendList(x, flattenList(xs))
+		}
+	}
 }
 
 /*
 tests
 */
+
+assert(List.flattenList(List(Nil, Nil)) == Nil)
+assert(List.flattenList(List(List(1), Nil)) == List(1))
+assert(List.flattenList(List(List(1))) == List(1))
+assert(List.flattenList(List(List(1,2),List(3), List(4,5), List(6,7,8))) == List(1,2,3,4,5,6,7,8))
