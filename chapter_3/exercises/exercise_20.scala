@@ -38,7 +38,7 @@ object List {
 		case Nil => Nil
 		case Cons(x, xs) => foldLeft(xs, Cons(x,Nil))((a,b) => Cons(b, a))
 	}
-	
+
 	/*
 
 	Write a function flatMap that works like map except that the function given will return a list 
@@ -53,10 +53,9 @@ object List {
 	*/
 
 	def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = {
-		def appendList[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1, l2)((a,b) => Cons(a,b))
 		as match {
 			case Nil => Nil
-			case Cons(x, xs: List[A]) => appendList(foldLeft(xs,f(x))((a,b) => a), flatMap(xs)(f))
+			case Cons(x, xs: List[A]) => foldRight(foldLeft(xs,f(x))((a,b) => a), flatMap(xs)(f))((a,b) => Cons(a,b))
 		}
 	}
 }

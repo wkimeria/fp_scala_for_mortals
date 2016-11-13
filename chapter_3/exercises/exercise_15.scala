@@ -47,10 +47,9 @@ object List {
 	*/
 
 	def flattenList[A](as: List[List[A]]): List[A] = {
-		def appendList[A](l1: List[A], l2: List[A]): List[A] = foldRight(l1, l2)((a,b) => Cons(a,b))
 		as match {
 			case Nil => Nil
-			case Cons(x,xs) => appendList(x, flattenList(xs))
+			case Cons(x,xs) => foldRight(x, flattenList(xs))((a,b) => Cons(a,b))
 		}
 	}
 }
@@ -58,7 +57,6 @@ object List {
 /*
 tests
 */
-
 assert(List.flattenList(List(Nil, Nil)) == Nil)
 assert(List.flattenList(List(List(1), Nil)) == List(1))
 assert(List.flattenList(List(List(1))) == List(1))
