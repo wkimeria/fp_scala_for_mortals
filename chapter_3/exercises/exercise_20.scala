@@ -39,6 +39,20 @@ object List {
 		case Cons(x, xs) => foldLeft(xs, Cons(x,Nil))((a,b) => Cons(b, a))
 	}
 
+	def append[A](a1: List[A], a2: List[A]): List[A] = foldRight(a1,a2)((a,b) => Cons(a, b))
+
+	def map[A,B](as: List[A])(f: A => B): List[B] = as match {
+		case Nil => Nil
+		case Cons(x, xs) => Cons(f(x), map(xs)(f))
+	}
+
+	def flattenList[A](as: List[List[A]]): List[A] = {
+		as match {
+			case Nil => Nil
+			case Cons(x,xs) => foldRight(x, flattenList(xs))((a,b) => Cons(a,b))
+		}
+	}
+
 	/*
 
 	Write a function flatMap that works like map except that the function given will return a list 
@@ -52,11 +66,22 @@ object List {
 
 	*/
 
-	def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = {
+	def flatMap2[A,B](as: List[A])(f: A => List[B]): List[B] = {
 		as match {
 			case Nil => Nil
-			case Cons(x, xs: List[A]) => foldRight(foldLeft(xs,f(x))((a,b) => a), flatMap(xs)(f))((a,b) => Cons(a,b))
+			case Cons(x, xs: List[A]) => foldRight(foldLeft(xs,f(x))((a,b) => a), flatMap2(xs)(f))((a,b) => Cons(a,b))
 		}
+	}
+
+
+	/*
+
+	Had to look at the answers to realize I could do this as below (chaining flattenList and map)
+
+	*/
+
+	def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = {
+		flattenList(map(as)(f))
 	}
 }
 
@@ -66,3 +91,7 @@ tests
 assert(List.flatMap(Nil)(i => List(i,i)) == Nil)
 assert(List.flatMap(List(1))(i => List(i,i)) == List(1,1))
 assert(List.flatMap(List(1,2,3))(i => List(i,i)) == List(1,1,2,2,3,3))
+
+assert(List.flatMap2(Nil)(i => List(i,i)) == Nil)
+assert(List.flatMap2(List(1))(i => List(i,i)) == List(1,1))
+assert(List.flatMap2(List(1,2,3))(i => List(i,i)) == List(1,1,2,2,3,3))
