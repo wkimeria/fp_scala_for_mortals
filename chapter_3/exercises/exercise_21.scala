@@ -69,7 +69,7 @@ object List {
 
 	*/
 
-	def filter[A](as: List[A])(f: A => Boolean): List[A] = flatMap(as)((x) => if(f(x)) Nil else Cons(x, Nil))
+	def filter[A](as: List[A])(f: A => Boolean): List[A] = flatMap(as)(x => if(f(x)) List(x) else Nil)
 
 }
 
@@ -78,6 +78,6 @@ tests
 */
 
 assert(List.filter(Nil)((x: Int) => x % 2 == 0) == Nil)
-assert(List.filter(List(1,2,3,4,5))((x: Int) => x % 2 == 0) == List(1,3,5))
+assert(List.filter(List(1,2,3,4,5))((x: Int) => x % 2 == 0) == List(2,4))
 
 
