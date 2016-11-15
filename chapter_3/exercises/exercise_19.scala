@@ -45,8 +45,8 @@ object List {
 
 	def filter[A](as: List[A])(f: A => Boolean): List[A] = as match {
 		case Nil => Nil
-		case Cons(x, xs) => if(f(x)) filter(xs)(f)
-							else Cons(x, filter(xs)(f))
+		case Cons(x, xs) => if(f(x)) Cons(x, filter(xs)(f))
+							else filter(xs)(f)
 	}	
 }
 
@@ -55,4 +55,4 @@ tests
 */
 
 assert(List.filter(Nil)((x: Int) => x % 2 == 0) == Nil)
-assert(List.filter(List(1,2,3,4,5))((x: Int) => x % 2 == 0) == List(1,3,5))
+assert(List.filter(List(1,2,3,4,5))((x: Int) => x % 2 == 0) == List(2,4))
