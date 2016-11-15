@@ -72,11 +72,9 @@ object List {
 
 	*/
 	def zipWithInt(l1: List[Int], l2: List[Int]): List[Int] = (l1, l2) match {
-		case (Nil, b) => b
-		case (a, Nil) => a
-		case (Cons(h1, t1), Cons(h2, t2)) => {
-			Cons((h1 + h2), zipWithInt(t1,t2))
-		}
+		case (Nil, _) => Nil
+		case (_, Nil) => Nil
+		case (Cons(h1, t1), Cons(h2, t2)) => Cons((h1 + h2), zipWithInt(t1,t2))
 	}
 }
 
@@ -85,10 +83,7 @@ tests
 */
 
 assert(List.zipWithInt(Nil, Nil) == List())
-assert(List.zipWithInt(Nil, List(4,5,6)) == List(4,5,6))
-assert(List.zipWithInt(List(1,2,3), Nil) == List(1,2,3))
+assert(List.zipWithInt(Nil, List(4,5,6)) == Nil)
+assert(List.zipWithInt(List(1,2,3), Nil) == Nil)
 assert(List.zipWithInt(List(1,2,3), List(4,5,6)) == List(5,7,9))
-
-//What should happen in case where lists are different lengths
-assert(List.zipWithInt(List(1,2,3), List(4,5,6,7)) == List(5,7,9,7))
 
