@@ -110,7 +110,6 @@ object List {
 			}
 		}
 		
-		
 		loop(reverse(sup), reverse(sub), false)
 	}
 }
