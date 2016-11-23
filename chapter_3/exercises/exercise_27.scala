@@ -20,6 +20,10 @@ object Tree {
 	}
 }
 
+/*
+tests
+*/
+
 val rightBranch = Branch(Leaf(30), Branch(Leaf(70), Leaf(20)))
 val tree = Branch(Leaf(33), rightBranch)
 
