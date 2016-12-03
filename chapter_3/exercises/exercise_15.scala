@@ -39,6 +39,8 @@ object List {
 		case Cons(x, xs) => foldLeft(xs, Cons(x,Nil))((a,b) => Cons(b, a))
 	}
 
+	def append[A](a1: List[A], a2: List[A]): List[A] = foldRight(a1,a2)((a,b) => Cons(a, b))
+
 	/*
 
 	Hard: Write a function that concatenates a list of lists into a single list. 
@@ -46,11 +48,9 @@ object List {
 	Try to use functions we have already defined.
 	*/
 
-	def flattenList[A](as: List[List[A]]): List[A] = {
-		as match {
-			case Nil => Nil
-			case Cons(x,xs) => foldRight(x, flattenList(xs))((a,b) => Cons(a,b))
-		}
+	def flattenList[A](as: List[List[A]]): List[A] = as match {
+		case Nil => Nil
+		case Cons(x, xs) => append(x,flattenList(xs))
 	}
 }
 
