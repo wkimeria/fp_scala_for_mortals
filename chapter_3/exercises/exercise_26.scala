@@ -11,13 +11,9 @@ object Tree {
 
 	*/
 
-	def maximum(tr: Tree[Int]): Int = {
-		def loop(t: Tree[Int], maximum: Int): Int = t match {
-			case Leaf(value: Int) => value max maximum
-			case  Branch(l, r) => loop(l, maximum) max loop(r, maximum)
-		}
-		val finalMax = loop(tr, 0)
-		finalMax
+	def maximum(tr: Tree[Int]): Int = tr match{
+		case Leaf(v) => v
+		case Branch(l,r) => maximum(l) max maximum(r)	
 	}
 }
 
