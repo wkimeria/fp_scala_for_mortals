@@ -82,7 +82,7 @@ object List {
 
 	/*
 
-	Hard: As an example, implement hasSubsequence for checking whether a List con- tains another 
+	Hard: As an example, implement hasSubsequence for checking whether a List contains another 
 	List as a subsequence. For instance, List(1,2,3,4) would have List(1,2), List(2,3), and List(4) 
 	as subsequences, among others. 
 	You may have some difficulty finding a concise purely functional implementation 
@@ -95,22 +95,22 @@ object List {
 	*/
 
 	def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = {
-
 		def loop[A](supRev: List[A], subRev: List[A], isSubSequence: Boolean): Boolean = supRev match {
-			case Nil => isSubSequence
+			case Nil => {
+				subRev match {
+					case Nil => isSubSequence
+					case _ => false
+				}
+			}
 			case Cons(x,xs) => subRev match {
 				case Nil => isSubSequence
 				case Cons(x2, xs2) => {
 					if(x == x2) loop(xs, xs2, true)
-					else{
-						if(isSubSequence == true) loop(xs, xs2, false)
-						else loop(xs, subRev, false)
-					}
+					else loop(xs, subRev, false)
 				}
 			}
 		}
-		
-		loop(reverse(sup), reverse(sub), false)
+		loop(sup, sub, false)
 	}
 }
 
@@ -118,9 +118,11 @@ object List {
 tests
 */
 
+assert(List.hasSubsequence(List(1,2,3,4,5), List(4)) == true)
 assert(List.hasSubsequence(List(1,2,3,4,5), List(4,5)) == true)
 assert(List.hasSubsequence(List(1,2,3,4,5), List(2,3,4)) == true)
 assert(List.hasSubsequence(List(1,2,3,4,5), List(4)) == true)
-assert(List.hasSubsequence(List(1,2,3,4,5), List(5,4)) == false)
+assert(List.hasSubsequence(List(1,2,3,4,5), List(5,4)) == false) //Failing on this
 assert(List.hasSubsequence(List(1), List(5,4)) == false)
+
 
