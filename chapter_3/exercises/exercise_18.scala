@@ -34,6 +34,14 @@ object List {
 		case Cons(x, xs) => foldLeft(xs,f(z,x))(f)
 	}
 
+	def reverse[A](as: List[A]): List[A] = as match {
+		case Nil => Nil
+		case Cons(x, xs) => foldLeft(xs, Cons(x,Nil))((a,b) => Cons(b, a))
+	}
+
+	def foldRightViaFoldLeft[A,B](as: List[A], z: B)(f: (B, A) => B): B = 
+		foldLeft(reverse(as), z)((b,a) => f(b,a))
+
 	/*
 
 	Write a function map that generalizes modifying each element in a list while maintain- ing the structure of the list. 
@@ -43,10 +51,7 @@ object List {
 
 	*/
 
-	def map[A,B](as: List[A])(f: A => B): List[B] = as match {
-		case Nil => Nil
-		case Cons(x, xs) => Cons(f(x), map(xs)(f))
-	}
+def map[A,B](as: List[A])(f: A => B): List[B] = foldRightViaFoldLeft(as, Nil:List[B])((t,h) => Cons(f(h),t))
 
 	
 }
