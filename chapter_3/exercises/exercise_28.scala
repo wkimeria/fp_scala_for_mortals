@@ -6,7 +6,7 @@ object Tree {
 
 	/*
 
-	Write a function map, analogous to the method of the same name on List, that modi- fies each element in a tree with a given function.
+	Write a function map, analogous to the method of the same name on List, that modifies each element in a tree with a given function.
 	*/
 
 	def map[A](tr: Tree[A])( f: A => A): Tree[A] = tr match {
